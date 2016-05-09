@@ -1,0 +1,166 @@
+<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="//s3.amazonaws.com/codecademy-content/courses/hour-of-code/js/alphabet.js"></script>
+<div style="text-align:center">
+<canvas id="myCanvas" style="width:800px;"></canvas>
+</div>
+<ul class="ball-placeholders">
+  <li class="ball-placeholder"></li>
+  <li class="ball-placeholder"></li>
+  <li class="ball-placeholder"></li>
+  <li class="ball-placeholder"></li>
+  <li class="ball-placeholder"></li>
+  <li class="ball-placeholder"></li>
+</ul>
+<!--<h1><%= @selected %></h1>-->
+<ul class="lottery"></ul>
+<button class="next-ball">Next Ball</button>
+<button class="play-again">Play Again!</button>
+<style>
+    body{
+          font-family: sans-serif;
+          font-size: 18px;
+          font-weight: 100;
+        }
+    ul{
+      position: absolute;
+      padding: 0;
+      top: 200px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      list-style-type: none;
+      width: 690px;
+      height: 100px;
+      }
+    li{
+        float: left;
+        width: 100px; 
+        height: 100px;
+        border-radius: 50px;
+        margin-right: 10px;
+        color: white;
+        text-align: center;
+        line-height: 100px;
+        font-size: 36px;
+        }
+    &:nth-child(4n){
+      margin-right: 40px;
+    }
+.ball-placeholder{
+  background: #FFE08C;
+  /*background: -moz-linear-gradient(-45deg,  rgba(34,34,34,1) 0%, rgba(0,0,0,1) 100%);*/
+  /*background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(34,34,34,1)), color-stop(100%,rgba(0,0,0,1)));*/
+  /*background: -webkit-linear-gradient(-45deg,  rgba(34,34,34,1) 0%,rgba(0,0,0,1) 100%); */
+  /*background: -o-linear-gradient(-45deg,  rgba(34,34,34,1) 0%,rgba(0,0,0,1) 100%); */
+  /*background: -ms-linear-gradient(-45deg,  rgba(34,34,34,1) 0%,rgba(0,0,0,1) 100%); */
+  /*background: linear-gradient(135deg,  rgba(34,34,34,1) 0%,rgba(0,0,0,1) 100%);*/
+  /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222222', endColorstr='#000000',GradientType=1 );*/
+
+}
+.lottery-ball{
+  background: rgb(255,0,0);
+  background: -moz-linear-gradient(-45deg,  rgba(255,0,0,1) 0%, rgba(165,0,0,1) 100%);
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,0,0,1)), color-stop(100%,rgba(165,0,0,1)));
+  background: -webkit-linear-gradient(-45deg,  rgba(255,0,0,1) 0%,rgba(165,0,0,1) 100%);
+  background: -o-linear-gradient(-45deg,  rgba(255,0,0,1) 0%,rgba(165,0,0,1) 100%);
+  background: -ms-linear-gradient(-45deg,  rgba(255,0,0,1) 0%,rgba(165,0,0,1) 100%);
+  background: linear-gradient(135deg,  rgba(255,0,0,1) 0%,rgba(165,0,0,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#a50000',GradientType=1 );
+
+  color: white;
+  &:last-child{
+    background: rgb(165,0,0);
+    background: -moz-linear-gradient(-45deg,  rgba(165,0,0,1) 0%, rgba(94,0,0,1) 100%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(165,0,0,1)), color-stop(100%,rgba(94,0,0,1)));
+    background: -webkit-linear-gradient(-45deg,  rgba(165,0,0,1) 0%,rgba(94,0,0,1) 100%);
+    background: -o-linear-gradient(-45deg,  rgba(165,0,0,1) 0%,rgba(94,0,0,1) 100%);
+    background: -ms-linear-gradient(-45deg,  rgba(165,0,0,1) 0%,rgba(94,0,0,1) 100%);
+    background: linear-gradient(135deg,  rgba(165,0,0,1) 0%,rgba(94,0,0,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a50000', endColorstr='#5e0000',GradientType=1 );
+
+  }
+}
+.next-ball, .play-again{
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: auto;
+  border: 0;
+  color: white;
+}
+.next-ball{
+  bottom: 20px;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  background: #7ac9ed;
+}
+.play-again{
+  display: none;
+  bottom: 20px;
+  width: 200px;
+  height: 80px;
+  font-size: 24px;
+  background: #d74d2f;
+}
+</style>
+
+<script type="text/javascript" src="//s3.amazonaws.com/codecademy-content/courses/hour-of-code/js/bubbles.js"></script>
+
+<script>
+    var i = 0
+    var sURL = unescape(window.location.pathname);
+$('.next-ball').on('click', function(){
+  var random = <%= @selected %>;
+  if( arr.indexOf(random) < 1){
+  console.log(random[i]);
+    arr.push(random[i]);
+    $('.lottery').append('<li class="lottery-ball">' + random[i] + '</li>');
+    i++
+  } else {
+    alert(random + ' has already been picked, go again.');
+  }
+  console.log(arr);
+  if ( $('.lottery').children().length > 5 ) {
+    $('.next-ball').hide();
+    $('.play-again').show();
+  }
+
+  
+});
+$('.play-again').on('click', function(){
+  $('.lottery').children().remove();
+  arr = [];
+  $('.next-ball').show();
+  $('.play-again').hide();
+  i=0;
+  refresh()
+});
+function refresh()
+{
+    window.location.href = sURL;
+}
+var myName = "LOTTO"
+
+var red = [0, 100, 63];
+var orange = [40, 100, 60];
+var green = [75, 100, 40];
+var blue = [196, 77, 55];
+var purple = [280, 50, 60];
+var letterColors = [red, orange, green, blue, purple];
+
+drawName(myName, letterColors);
+
+if(10 < 3)
+{
+    bubbleShape = 'square';
+}
+else
+{
+    bubbleShape = 'circle';
+}
+
+bounceBubbles();
+
+</script>
